@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43C943961A91980500EEB6E9 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C943951A91980500EEB6E9 /* Person.swift */; };
 		4C6934521A8F692600F872C1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6934511A8F692600F872C1 /* AppDelegate.swift */; };
 		4C6934541A8F692600F872C1 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6934531A8F692600F872C1 /* Document.swift */; };
 		4C6934571A8F692600F872C1 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C6934551A8F692600F872C1 /* Document.xib */; };
 		4C6934591A8F692600F872C1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C6934581A8F692600F872C1 /* Images.xcassets */; };
 		4C69345C1A8F692600F872C1 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C69345A1A8F692600F872C1 /* MainMenu.xib */; };
 		4C6934681A8F692600F872C1 /* RaiseManTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6934671A8F692600F872C1 /* RaiseManTests.swift */; };
-		4C6934741A8F6A9E00F872C1 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6934731A8F6A9E00F872C1 /* Person.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		43C943951A91980500EEB6E9 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		4C69344C1A8F692600F872C1 /* RaiseMan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RaiseMan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C6934501A8F692600F872C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C6934511A8F692600F872C1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -37,7 +38,6 @@
 		4C6934611A8F692600F872C1 /* RaiseManTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RaiseManTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C6934661A8F692600F872C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C6934671A8F692600F872C1 /* RaiseManTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaiseManTests.swift; sourceTree = "<group>"; };
-		4C6934731A8F6A9E00F872C1 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +81,7 @@
 			children = (
 				4C6934511A8F692600F872C1 /* AppDelegate.swift */,
 				4C6934531A8F692600F872C1 /* Document.swift */,
-				4C6934731A8F6A9E00F872C1 /* Person.swift */,
+				43C943951A91980500EEB6E9 /* Person.swift */,
 				4C6934551A8F692600F872C1 /* Document.xib */,
 				4C6934581A8F692600F872C1 /* Images.xcassets */,
 				4C69345A1A8F692600F872C1 /* MainMenu.xib */,
@@ -215,7 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C6934741A8F6A9E00F872C1 /* Person.swift in Sources */,
+				43C943961A91980500EEB6E9 /* Person.swift in Sources */,
 				4C6934541A8F692600F872C1 /* Document.swift in Sources */,
 				4C6934521A8F692600F872C1 /* AppDelegate.swift in Sources */,
 			);
@@ -413,6 +413,7 @@
 				4C69346D1A8F692600F872C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4C69346E1A8F692600F872C1 /* Build configuration list for PBXNativeTarget "RaiseManTests" */ = {
 			isa = XCConfigurationList;
@@ -421,6 +422,7 @@
 				4C6934701A8F692600F872C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

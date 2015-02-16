@@ -8,15 +8,21 @@
 
 import Cocoa
 
+//忘记加前缀了, 看着这不要有疑惑 就是RMDocument
 class Document: NSDocument {
-    
-    var employees: NSMutableArray! = NSMutableArray()
+   
+    @objc(employees)
+    var employees: NSMutableArray!
 
     override init() {
         super.init()
         // Add your subclass-specific initialization here.
+        self.employees = NSMutableArray()
     }
 
+    @IBAction func onCheck(sender: AnyObject) {
+        println(self.employees)
+    }
     override func windowControllerDidLoadNib(aController: NSWindowController) {
         super.windowControllerDidLoadNib(aController)
         // Add any code here that needs to be executed once the windowController has loaded the document's window.

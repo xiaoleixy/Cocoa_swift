@@ -2,10 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:KvcFun/KvcFun.xcodeproj">
+      location = "group:RaiseMan/RaiseMan.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:RaiseMan/RaiseMan.xcodeproj">
+      location = "group:KvcFun/KvcFun.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:SpeakLine/SpeakLine.xcodeproj">
