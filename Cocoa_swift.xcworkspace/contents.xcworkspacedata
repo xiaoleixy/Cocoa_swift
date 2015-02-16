@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <FileRef
+      location = "group:KvcFun/KvcFun.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:RaiseMan/RaiseMan.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SpeakLine/SpeakLine.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Random/Random.xcodeproj">
+   </FileRef>
 </Workspace>
