@@ -21,7 +21,7 @@ class Person: NSObject {
     }
     
     func customDescription() -> String {
-        return "personName : " + self.personName
+        return "personName : " + self.personName + ", expectedRasise : \(self.expectedRaise)"
 //            + "\n" + "expectedRaise : " + String(self.expectedRaise)
     }
     
