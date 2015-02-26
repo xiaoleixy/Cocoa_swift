@@ -9,50 +9,215 @@
 import Cocoa
 
 //忘记加前缀了, 看着这不要有疑惑 就是RMDocument
-class Document: NSDocument {
-   
+public class Document: NSDocument {
+    
     @objc(employees)
-    var employees: NSMutableArray!
-
+    var employees: NSMutableArray = NSMutableArray() {
+        willSet {
+            for person in employees {
+                self.stopObservingPerson(person as Person)
+            }
+        }
+        didSet {
+            for person in employees {
+                self.startObservingPerson(person as Person)
+            }
+        }
+        
+        
+    }
+    
+    @IBOutlet var tableView: NSTableView!
+    
+    @IBOutlet var employeeController: NSArrayController!
+    
+    private var RMDocumentKVOContext = 0
+    
     override init() {
         super.init()
         // Add your subclass-specific initialization here.
-        self.employees = NSMutableArray()
     }
-
-    @IBAction func onCheck(sender: AnyObject) {
-        println(self.employees)
-    }
-    override func windowControllerDidLoadNib(aController: NSWindowController) {
+    
+    
+    override public func windowControllerDidLoadNib(aController: NSWindowController) {
         super.windowControllerDidLoadNib(aController)
         // Add any code here that needs to be executed once the windowController has loaded the document's window.
     }
-
-    override class func autosavesInPlace() -> Bool {
+    
+    override public class func autosavesInPlace() -> Bool {
         return true
     }
-
-    override var windowNibName: String? {
+    
+    override public var windowNibName: String? {
         // Returns the nib file name of the document
         // If you need to use a subclass of NSWindowController or if your document supports multiple NSWindowControllers, you should remove this property and override -makeWindowControllers instead.
         return "Document"
     }
-
-    override func dataOfType(typeName: String, error outError: NSErrorPointer) -> NSData? {
+    
+    override public func dataOfType(typeName: String, error outError: NSErrorPointer) -> NSData? {
         // Insert code here to write your document to data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning nil.
         // You can also choose to override fileWrapperOfType:error:, writeToURL:ofType:error:, or writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
         outError.memory = NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
         return nil
     }
-
-    override func readFromData(data: NSData, ofType typeName: String, error outError: NSErrorPointer) -> Bool {
+    
+    override public func readFromData(data: NSData, ofType typeName: String, error outError: NSErrorPointer) -> Bool {
         // Insert code here to read your document from the given data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning false.
         // You can also choose to override readFromFileWrapper:ofType:error: or readFromURL:ofType:error: instead.
         // If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
         outError.memory = NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
         return false
     }
-
-
+    
+    public override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+        if (context != &RMDocumentKVOContext)
+        {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+            return
+        }
+        
+        let undo = self.undoManager
+        var oldValue: AnyObject? = change[NSKeyValueChangeOldKey]
+        
+        undo?.prepareWithInvocationTarget(self).changeKeyPath(keyPath, ofObject: object, toValue: oldValue!)
+        undo?.setActionName("Edit")
+    }
+    
+    @IBAction func onCheck(sender: AnyObject) {
+        println(self.employees)
+    }
+    
+    @IBAction func createEmployee(sender: AnyObject)
+    {
+        let w: NSWindow = self.tableView.window!
+        let editingEnded = w.makeFirstResponder(w)
+        
+        if (!editingEnded)
+        {
+            println("Unable to end editing")
+            return
+        }
+        
+        let undo = self.undoManager
+        
+        if undo?.groupingLevel > 0 {
+            undo?.endUndoGrouping()
+            undo?.beginUndoGrouping()
+        }
+        
+        let p = self.employeeController.newObject() as Person
+        
+        self.employeeController.addObject(p)
+        self.employeeController.rearrangeObjects()
+        
+        var a = self.employeeController.arrangedObjects as NSArray
+        
+        let row = a.indexOfObjectIdenticalTo(p)
+        
+        self.tableView.editColumn(0, row: row, withEvent: nil, select: true)
+        
+    }
+    
+    
+    func startObservingPerson(person: Person)
+    {
+        person.addObserver(self, forKeyPath: "personName", options: NSKeyValueObservingOptions.Old, context: &RMDocumentKVOContext)
+        person.addObserver(self, forKeyPath: "expectedRaise", options: NSKeyValueObservingOptions.Old, context: &RMDocumentKVOContext)
+    }
+    func stopObservingPerson(person: Person)
+    {
+        person.removeObserver(self, forKeyPath: "personName", context: &RMDocumentKVOContext)
+        person.removeObserver(self, forKeyPath: "expectedRaise", context: &RMDocumentKVOContext)
+    }
+    
+    func changeKeyPath(keyPath:NSString, ofObject obj: AnyObject, toValue newValue:AnyObject)
+    {
+        obj.setValue(newValue, forKeyPath: keyPath)
+    }
+    
+    
+    func insertObject(p: Person, atEmployeesObjectIndex index: Int){
+        println("adding \(p) to \(self.employees)")
+        let undo = self.undoManager
+        undo?.prepareWithInvocationTarget(self).removeObjectAtArrangedObjectIndex(index)
+        
+        if (false == undo?.undoing) {
+            undo?.setActionName("Add Person")
+        }
+        
+        self.employees.insertObject(p, atIndex: index) 
+    }
+    
+    
+    
+    public func removeObjectAtEmployeesIndex(index: Int) {
+        let p: Person = self.employees.objectAtIndex(index) as Person
+        println("removing \(p) to \(self.employees)")
+        let undo = self.undoManager
+        
+        undo?.prepareWithInvocationTarget(self).insertObject(p, atArrangedObjectIndex: index)
+        
+        if (false == undo?.undoing) {
+            undo?.setActionName("Remove Person")
+        }
+        
+        self.employees.removeObjectAtIndex(index)
+        
+    }
+    
+    public func removeObjectFromeEmployeesIndex(index: Int) {
+        let p: Person = self.employees.objectAtIndex(index) as Person
+        println("removing \(p) to \(self.employees)")
+        let undo = self.undoManager
+        
+        undo?.prepareWithInvocationTarget(self).insertObject(p, atArrangedObjectIndex: index)
+        
+        
+        if (false == undo?.undoing) {
+            undo?.setActionName("Remove Person")
+        }
+        
+        self.employees.removeObjectAtIndex(index)
+    }
+    
+    
+    func removeObjectAtEmployeeControllerIndex(index: Int) {
+        let p: Person = self.employees.objectAtIndex(index) as Person
+        println("removing \(p) to \(self.employees)")
+        let undo = self.undoManager
+        
+        undo?.prepareWithInvocationTarget(self).insertObject(p, atArrangedObjectIndex: index)
+        
+        
+        if (false == undo?.undoing) {
+            undo?.setActionName("Remove Person")
+        }
+        
+        self.employees.removeObjectAtIndex(index)
+        
+    }
+    
+    
+    func removeObjectFromeEmployeeControllerIndex(index: Int) {
+        let p: Person = self.employees.objectAtIndex(index) as Person
+        println("removing \(p) to \(self.employees)")
+        let undo = self.undoManager
+        
+        undo?.prepareWithInvocationTarget(self).insertObject(p, atArrangedObjectIndex: index)
+        
+        
+        if (false == undo?.undoing) {
+            undo?.setActionName("Remove Person")
+        }
+        
+        self.employees.removeObjectAtIndex(index)
+    }
+    
+    
+    
+    
+    
+    
+    
 }
 

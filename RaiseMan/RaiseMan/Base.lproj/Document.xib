@@ -6,6 +6,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="Document" customModule="RaiseMan" customModuleProvider="target">
             <connections>
+                <outlet property="employeeController" destination="QR3-QV-mTv" id="bLl-X0-zqI"/>
+                <outlet property="tableView" destination="lAK-UE-9yd" id="5zK-B0-lNF"/>
                 <outlet property="window" destination="xOd-HO-29H" id="JIz-fz-R2o"/>
             </connections>
         </customObject>
@@ -42,7 +44,7 @@ CA
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="add:" target="QR3-QV-mTv" id="U0h-or-myA"/>
+                            <action selector="createEmployee:" target="-2" id="6XH-Yq-Pgz"/>
                         </connections>
                     </button>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bTP-lN-qon">
