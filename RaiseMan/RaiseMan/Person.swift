@@ -31,4 +31,12 @@ class Person: NSObject {
     override var description: String {
         return customDescription()
     }
+    
+    override func setNilValueForKey(key: String) {
+        if key == "expectedRaise" {
+           self.expectedRaise = 0.0
+        }else {
+            super.setNilValueForKey(key)
+        }
+    }
 }
