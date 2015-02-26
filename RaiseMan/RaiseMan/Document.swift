@@ -9,10 +9,10 @@
 import Cocoa
 
 //忘记加前缀了, 看着这不要有疑惑 就是RMDocument
-public class Document: NSDocument {
-    
+class Document: NSDocument {
+   
     @objc(employees)
-    var employees: NSMutableArray = NSMutableArray() {
+     var employees: NSMutableArray = NSMutableArray() {
         willSet {
             for person in employees {
                 self.stopObservingPerson(person as Person)
@@ -39,29 +39,29 @@ public class Document: NSDocument {
     }
     
     
-    override public func windowControllerDidLoadNib(aController: NSWindowController) {
+    override func windowControllerDidLoadNib(aController: NSWindowController) {
         super.windowControllerDidLoadNib(aController)
         // Add any code here that needs to be executed once the windowController has loaded the document's window.
     }
     
-    override public class func autosavesInPlace() -> Bool {
+    override class func autosavesInPlace() -> Bool {
         return true
     }
     
-    override public var windowNibName: String? {
+    override var windowNibName: String? {
         // Returns the nib file name of the document
         // If you need to use a subclass of NSWindowController or if your document supports multiple NSWindowControllers, you should remove this property and override -makeWindowControllers instead.
         return "Document"
     }
     
-    override public func dataOfType(typeName: String, error outError: NSErrorPointer) -> NSData? {
+    override func dataOfType(typeName: String, error outError: NSErrorPointer) -> NSData? {
         // Insert code here to write your document to data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning nil.
         // You can also choose to override fileWrapperOfType:error:, writeToURL:ofType:error:, or writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
         outError.memory = NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
         return nil
     }
     
-    override public func readFromData(data: NSData, ofType typeName: String, error outError: NSErrorPointer) -> Bool {
+    override func readFromData(data: NSData, ofType typeName: String, error outError: NSErrorPointer) -> Bool {
         // Insert code here to read your document from the given data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning false.
         // You can also choose to override readFromFileWrapper:ofType:error: or readFromURL:ofType:error: instead.
         // If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
@@ -69,7 +69,7 @@ public class Document: NSDocument {
         return false
     }
     
-    public override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
         if (context != &RMDocumentKVOContext)
         {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
@@ -86,7 +86,7 @@ public class Document: NSDocument {
     @IBAction func onCheck(sender: AnyObject) {
         println(self.employees)
     }
-    
+   
     @IBAction func createEmployee(sender: AnyObject)
     {
         let w: NSWindow = self.tableView.window!
@@ -118,7 +118,7 @@ public class Document: NSDocument {
         
     }
     
-    
+ 
     func startObservingPerson(person: Person)
     {
         person.addObserver(self, forKeyPath: "personName", options: NSKeyValueObservingOptions.Old, context: &RMDocumentKVOContext)
@@ -148,24 +148,7 @@ public class Document: NSDocument {
         self.employees.insertObject(p, atIndex: index) 
     }
     
-    
-    
-    public func removeObjectAtEmployeesIndex(index: Int) {
-        let p: Person = self.employees.objectAtIndex(index) as Person
-        println("removing \(p) to \(self.employees)")
-        let undo = self.undoManager
-        
-        undo?.prepareWithInvocationTarget(self).insertObject(p, atArrangedObjectIndex: index)
-        
-        if (false == undo?.undoing) {
-            undo?.setActionName("Remove Person")
-        }
-        
-        self.employees.removeObjectAtIndex(index)
-        
-    }
-    
-    public func removeObjectFromeEmployeesIndex(index: Int) {
+    func removeObjectAtEmployeesIndex(index: Int) {
         let p: Person = self.employees.objectAtIndex(index) as Person
         println("removing \(p) to \(self.employees)")
         let undo = self.undoManager
@@ -178,46 +161,8 @@ public class Document: NSDocument {
         }
         
         self.employees.removeObjectAtIndex(index)
+       
     }
-    
-    
-    func removeObjectAtEmployeeControllerIndex(index: Int) {
-        let p: Person = self.employees.objectAtIndex(index) as Person
-        println("removing \(p) to \(self.employees)")
-        let undo = self.undoManager
-        
-        undo?.prepareWithInvocationTarget(self).insertObject(p, atArrangedObjectIndex: index)
-        
-        
-        if (false == undo?.undoing) {
-            undo?.setActionName("Remove Person")
-        }
-        
-        self.employees.removeObjectAtIndex(index)
-        
-    }
-    
-    
-    func removeObjectFromeEmployeeControllerIndex(index: Int) {
-        let p: Person = self.employees.objectAtIndex(index) as Person
-        println("removing \(p) to \(self.employees)")
-        let undo = self.undoManager
-        
-        undo?.prepareWithInvocationTarget(self).insertObject(p, atArrangedObjectIndex: index)
-        
-        
-        if (false == undo?.undoing) {
-            undo?.setActionName("Remove Person")
-        }
-        
-        self.employees.removeObjectAtIndex(index)
-    }
-    
-    
-    
-    
-    
-    
     
 }
 
