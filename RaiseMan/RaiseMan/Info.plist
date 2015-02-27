@@ -12,7 +12,7 @@
 				<string>mydoc</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string></string>
+			<string>txt</string>
 			<key>CFBundleTypeName</key>
 			<string>DocumentType</string>
 			<key>CFBundleTypeOSTypes</key>

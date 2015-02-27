@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4336CF6E1AA0451500A8597F /* txt.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4336CF6D1AA0451500A8597F /* txt.icns */; };
+		4336CF701AA0499100A8597F /* PreferenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4336CF6F1AA0499100A8597F /* PreferenceController.swift */; };
 		43C943961A91980500EEB6E9 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C943951A91980500EEB6E9 /* Person.swift */; };
 		4C6934521A8F692600F872C1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6934511A8F692600F872C1 /* AppDelegate.swift */; };
 		4C6934541A8F692600F872C1 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6934531A8F692600F872C1 /* Document.swift */; };
@@ -27,6 +29,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4336CF6D1AA0451500A8597F /* txt.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = txt.icns; sourceTree = "<group>"; };
+		4336CF6F1AA0499100A8597F /* PreferenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceController.swift; sourceTree = "<group>"; };
 		43C943951A91980500EEB6E9 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		4C69344C1A8F692600F872C1 /* RaiseMan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RaiseMan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C6934501A8F692600F872C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -86,6 +90,7 @@
 				4C6934581A8F692600F872C1 /* Images.xcassets */,
 				4C69345A1A8F692600F872C1 /* MainMenu.xib */,
 				4C69344F1A8F692600F872C1 /* Supporting Files */,
+				4336CF6F1AA0499100A8597F /* PreferenceController.swift */,
 			);
 			path = RaiseMan;
 			sourceTree = "<group>";
@@ -93,6 +98,7 @@
 		4C69344F1A8F692600F872C1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4336CF6D1AA0451500A8597F /* txt.icns */,
 				4C6934501A8F692600F872C1 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -198,6 +204,7 @@
 				4C6934571A8F692600F872C1 /* Document.xib in Resources */,
 				4C6934591A8F692600F872C1 /* Images.xcassets in Resources */,
 				4C69345C1A8F692600F872C1 /* MainMenu.xib in Resources */,
+				4336CF6E1AA0451500A8597F /* txt.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,6 +222,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4336CF701AA0499100A8597F /* PreferenceController.swift in Sources */,
 				43C943961A91980500EEB6E9 /* Person.swift in Sources */,
 				4C6934541A8F692600F872C1 /* Document.swift in Sources */,
 				4C6934521A8F692600F872C1 /* AppDelegate.swift in Sources */,
