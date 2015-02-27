@@ -12,7 +12,7 @@ import Cocoa
 class Document: NSDocument {
    
     @objc(employees)
-     var employees: NSMutableArray = NSMutableArray() {
+    var employees:[Person] = [Person]() {
         willSet {
             for person in employees {
                 self.stopObservingPerson(person as Person)
@@ -23,8 +23,6 @@ class Document: NSDocument {
                 self.startObservingPerson(person as Person)
             }
         }
-        
-        
     }
     
     @IBOutlet var tableView: NSTableView!
@@ -136,33 +134,31 @@ class Document: NSDocument {
     }
     
     
-    func insertObject(p: Person, atEmployeesObjectIndex index: Int){
+    func insertObject(p: Person, inEmployeesAtIndex index: Int){
         println("adding \(p) to \(self.employees)")
         let undo = self.undoManager
-        undo?.prepareWithInvocationTarget(self).removeObjectAtArrangedObjectIndex(index)
+        undo?.prepareWithInvocationTarget(self).removeObjectFromEmployeesAtIndex(index)
         
         if (false == undo?.undoing) {
             undo?.setActionName("Add Person")
         }
         
-        self.employees.insertObject(p, atIndex: index) 
+        self.employees.insert(p, atIndex: index)
     }
     
-    func removeObjectAtEmployeesIndex(index: Int) {
-        let p: Person = self.employees.objectAtIndex(index) as Person
+    func removeObjectFromEmployeesAtIndex(index: Int) {
+        let p: Person = self.employees[index] as Person
         println("removing \(p) to \(self.employees)")
         let undo = self.undoManager
         
-        undo?.prepareWithInvocationTarget(self).insertObject(p, atArrangedObjectIndex: index)
-        
+        undo?.prepareWithInvocationTarget(self).insertObject(p, inEmployeesAtIndex: index)
         
         if (false == undo?.undoing) {
             undo?.setActionName("Remove Person")
         }
         
-        self.employees.removeObjectAtIndex(index)
+        self.employees.removeAtIndex(index)
        
     }
-    
 }
 
