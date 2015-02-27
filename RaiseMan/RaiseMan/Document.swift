@@ -10,7 +10,7 @@ import Cocoa
 
 //忘记加前缀了, 看着这不要有疑惑 就是RMDocument
 class Document: NSDocument {
-   
+    
     @objc(employees)
     var employees:[Person] = [Person]() {
         willSet {
@@ -55,16 +55,27 @@ class Document: NSDocument {
     override func dataOfType(typeName: String, error outError: NSErrorPointer) -> NSData? {
         // Insert code here to write your document to data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning nil.
         // You can also choose to override fileWrapperOfType:error:, writeToURL:ofType:error:, or writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
-        outError.memory = NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
-        return nil
+//        outError.memory = NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+//        return nil
+       
+        
+        //保存
+        tableView.window?.endEditingFor(nil)
+        return NSKeyedArchiver.archivedDataWithRootObject(employees)
     }
     
     override func readFromData(data: NSData, ofType typeName: String, error outError: NSErrorPointer) -> Bool {
         // Insert code here to read your document from the given data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning false.
         // You can also choose to override readFromFileWrapper:ofType:error: or readFromURL:ofType:error: instead.
         // If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
-        outError.memory = NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
-        return false
+        if let newArray = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? [Person] {
+            self.employees = newArray
+            return true
+        }else
+        {
+            outError.memory = NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+            return false
+        }
     }
     
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
@@ -84,10 +95,11 @@ class Document: NSDocument {
     @IBAction func onCheck(sender: AnyObject) {
         println(self.employees)
     }
-   
+    
     @IBAction func createEmployee(sender: AnyObject)
     {
         let w: NSWindow = self.tableView.window!
+        //准备结束正在发生的编辑动作
         let editingEnded = w.makeFirstResponder(w)
         
         if (!editingEnded)
@@ -106,8 +118,9 @@ class Document: NSDocument {
         let p = self.employeeController.newObject() as Person
         
         self.employeeController.addObject(p)
+        //重新排序
         self.employeeController.rearrangeObjects()
-        
+        //排序后的数组
         var a = self.employeeController.arrangedObjects as NSArray
         
         let row = a.indexOfObjectIdenticalTo(p)
@@ -116,7 +129,7 @@ class Document: NSDocument {
         
     }
     
- 
+    
     func startObservingPerson(person: Person)
     {
         person.addObserver(self, forKeyPath: "personName", options: NSKeyValueObservingOptions.Old, context: &RMDocumentKVOContext)
@@ -132,8 +145,7 @@ class Document: NSDocument {
     {
         obj.setValue(newValue, forKeyPath: keyPath)
     }
-    
-    
+
     func insertObject(p: Person, inEmployeesAtIndex index: Int){
         println("adding \(p) to \(self.employees)")
         let undo = self.undoManager
@@ -158,7 +170,7 @@ class Document: NSDocument {
         }
         
         self.employees.removeAtIndex(index)
-       
+        
     }
 }
 
