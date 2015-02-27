@@ -34,6 +34,9 @@ class Document: NSDocument {
     override init() {
         super.init()
         // Add your subclass-specific initialization here.
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:"handleColorChange:" , name: BNRColorChangedNotification, object: nil)
+        
     }
     
     
@@ -173,6 +176,11 @@ class Document: NSDocument {
         
         self.employees.removeAtIndex(index)
         
+    }
+    
+    func handleColorChange(notification: NSNotification)
+    {
+         tableView.backgroundColor = PreferenceController.preferenceTableBgColor() 
     }
 }
 

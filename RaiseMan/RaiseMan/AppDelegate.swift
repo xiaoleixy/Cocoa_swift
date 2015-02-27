@@ -9,6 +9,7 @@
 import Cocoa
 let BNRTableBgColorKey = "BNRTableBackgroundColor"
 let BNREmptyDocKey = "BNREmptyDocumentFlag"
+let BNRColorChangedNotification = "BNRColorChanged"
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {

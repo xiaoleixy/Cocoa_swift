@@ -32,7 +32,10 @@ class PreferenceController: NSWindowController {
         let color = colorWell.color
         println("Color changed \(color)")
         PreferenceController.setPreferenceTableBgColor(color)
+       
+        NSNotificationCenter.defaultCenter().postNotificationName(BNRColorChangedNotification, object: self, userInfo:["color": color])
     }
+    
     @IBAction func changeNewEmptyDoc(sender: AnyObject) {
         let state = checkbox.state 
         println("Checkbox changed \(state)")
