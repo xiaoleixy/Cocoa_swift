@@ -31,9 +31,33 @@ class PreferenceController: NSWindowController {
     @IBAction func changeBackgroundColor(sender: AnyObject) {
         let color = colorWell.color
         println("Color changed \(color)")
+        PreferenceController.setPreferenceTableBgColor(color)
     }
     @IBAction func changeNewEmptyDoc(sender: AnyObject) {
-        let state = checkbox.state
+        let state = checkbox.state 
         println("Checkbox changed \(state)")
+        PreferenceController.setPreferenceEmptyDoc(Bool(state))
+    }
+    
+    class func preferenceTableBgColor () -> NSColor
+    {
+        let colorAsData = NSUserDefaults.standardUserDefaults().objectForKey(BNRTableBgColorKey) as NSData
+        return NSKeyedUnarchiver.unarchiveObjectWithData(colorAsData) as NSColor
+    }
+    
+    class func setPreferenceTableBgColor(color: NSColor)
+    {
+       let colorAsData = NSKeyedArchiver.archivedDataWithRootObject(color)
+        NSUserDefaults.standardUserDefaults().setObject(colorAsData, forKey: BNRTableBgColorKey)
+    }
+    
+    class func preferenceEmptyDoc () -> Bool
+    {
+       return NSUserDefaults.standardUserDefaults().boolForKey(BNREmptyDocKey)
+    }
+    
+    class func setPreferenceEmptyDoc (emptyDoc: Bool)
+    {
+        NSUserDefaults.standardUserDefaults().setBool(emptyDoc, forKey: BNREmptyDocKey)
     }
 }

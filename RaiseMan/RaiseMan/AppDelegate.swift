@@ -7,6 +7,8 @@
 //
 
 import Cocoa
+let BNRTableBgColorKey = "BNRTableBackgroundColor"
+let BNREmptyDocKey = "BNREmptyDocumentFlag"
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -20,9 +22,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(aNotification: NSNotification) {
         // Insert code here to tear down your application
     }
+    
+    func applicationShouldOpenUntitledFile(sender: NSApplication) -> Bool {
+        return PreferenceController.preferenceEmptyDoc()
+    }
     @IBAction func showPreferencePanel(sender: AnyObject) {
         preferenceController.showWindow(self)
     }
 
+    override class func initialize(){
+        let defaultValues = NSMutableDictionary()
+        let colorAsData = NSKeyedArchiver.archivedDataWithRootObject(NSColor.yellowColor())
+        defaultValues.setObject(colorAsData, forKey: BNRTableBgColorKey)
+        defaultValues.setObject(Bool(true), forKey: BNREmptyDocKey)
+        
+        NSUserDefaults.standardUserDefaults().registerDefaults(defaultValues)
+    }
+    
+    
 }
 
