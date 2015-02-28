@@ -26,6 +26,10 @@ class PreferenceController: NSWindowController {
         super.windowDidLoad()
     
         // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+        colorWell.color = PreferenceController.preferenceTableBgColor()
+        checkbox.state = NSUserDefaults.standardUserDefaults().integerForKey(BNREmptyDocKey)
+        
+        
     }
 
     @IBAction func changeBackgroundColor(sender: AnyObject) {
